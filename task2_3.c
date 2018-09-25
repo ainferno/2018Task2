@@ -1,25 +1,36 @@
 #include <stdio.h>
 
 
-int fib(int a)
+int fib_r(int a)
 {
-    if(a == 0)
+    if(a < 0)
+    {
+        printf("Error(number too big\n");
         return 0;
-    if(a == 1)
-        return 1;
-    return fib(a-1)+fib(a-2);
+    }
+    if(a <= 1)
+        return a;
+    return fib_r(a-1)+fib_r(a-2);
+}
+int fib_i(int a)
+{
+    int x = 0, y = 1, z = 0;
+    if(a <= 1)
+        return a;
+    for(;a > 1;a--)
+    {
+        z = y;
+        y = x+y;
+        x = z;
+    }
+    return y;
 }
 
 int main()
 {
     int a = 0;
-
-    do
-    {
-        scanf("%d",&a);
-        if(a!=322)
-            printf("%d\n",fib(a));
-    }
-    while(a != 322);
+    printf("Please, do not enter numbers bigger than 45 it can take too much time\nEnter N:");
+    while(scanf("%d",&a)==1)
+        printf("Result with recursion is: %d\nResult with iteration is: %d\nEnter N:",fib_r(a),fib_i(a));
     return 0;
 }
