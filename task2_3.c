@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#include <time.h>
 
 int fib_r(int a)
 {
@@ -29,8 +29,17 @@ int fib_i(int a)
 int main()
 {
     int a = 0;
+    long unsigned int t1 = 0;
     printf("Please, do not enter numbers bigger than 45 it can take too much time\nEnter N:");
     while(scanf("%d",&a)==1)
-        printf("Result with recursion is: %d\nResult with iteration is: %d\nEnter N:",fib_r(a),fib_i(a));
+    {
+        t1 = clock();
+        printf("Result with iteration is: %d", fib_i(a));
+        printf(", It took %d mS\n", clock()-t1);
+        t1 = clock();
+        printf("Result with recursion is: %d", fib_r(a));
+        printf(", It took %d mS\nEnter N:", clock()-t1);
+    }
+
     return 0;
 }

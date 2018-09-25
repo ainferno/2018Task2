@@ -25,7 +25,7 @@ double str2double(char str[100])
     if(str[i-1]=='.')
     {
         for(;i < n && str[i]!='F' && str[i]!='f' && str[i]!='E' && str[i]!='e';i++,rh*=10)
-        {   
+        {
             res+= ((double)str[i]-'0')/rh;
 //        printf("R = %lf, Rh = %lf, R? = %lf, rr = %lf\n",res,rh,(double)str[i]-'0',((double)str[i]-'0')/rh);
         }
@@ -42,8 +42,6 @@ double str2double(char str[100])
         rh = step10(rh);
         (c == '-') ? (res/=rh) : (res*=rh);
     }
-    
-
     return res;
 }
 
