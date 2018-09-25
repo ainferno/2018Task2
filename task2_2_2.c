@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 double polinomial(double x,double a,double b)
 {
