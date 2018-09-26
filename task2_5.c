@@ -24,6 +24,30 @@ void add(list *a, char *b)
     add(&(*a)->next, b);
 }
 
+void rem_first_srch(list *a, char *b)
+{
+    if(*a == NULL)
+        return;
+    if((*a)->next == NULL)
+    {
+        if(cmp_str((*a)->elem, b))
+        {
+            free((*a)->elem);
+            free(*a);
+            a = NULL;
+        }
+        return;
+    }
+    if(cmp_str((*a)->next->elem, b))
+    {
+        list c = (*a)->next->next;
+        free((*a)->next->elem);
+        free((*a)->next);
+        (*a)->next = c;
+        return;
+    }
+    rem_first_srch(&(*a)->next, b);
+}
 
 void show(list a)
 {
@@ -72,7 +96,7 @@ int main()
     list a = NULL;
     a = input();
     show(a);
-    rmv(&a, "abc");
+    rem_first_srch(&a, "abc");
     show(a);
     //printf("%d\n", cmp_str("a","a"));
     return 0;
