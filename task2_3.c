@@ -35,10 +35,10 @@ int main()
     {
         t1 = clock();
         printf("Result with iteration is: %d", fib_i(a));
-        printf(", It took %d mS\n", clock()-t1);
+        printf(", It took %ld ticks\n", clock()-t1);
         t1 = clock();
         printf("Result with recursion is: %d", fib_r(a));
-        printf(", It took %d mS\nEnter N:", clock()-t1);
+        printf(", It took %ld ticks\nEnter N:", clock()-t1);
     }
 
     return 0;
