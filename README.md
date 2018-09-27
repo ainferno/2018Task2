@@ -28,3 +28,8 @@ Task2.4 - task2_4.c
 >gcc task2_4.c
 
 >./a.out
+
+Task2.5 - task2_5.c
+>gcc task2_5.c
+
+>./a.out

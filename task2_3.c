@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 
-int fib_r(int a)
+unsigned long int fib_r(unsigned int a)
 {
     if(a < 0)
     {
@@ -12,7 +12,7 @@ int fib_r(int a)
         return a;
     return fib_r(a-1)+fib_r(a-2);
 }
-int fib_i(int a)
+unsigned long int fib_i(unsigned int a)
 {
     int x = 0, y = 1, z = 0;
     if(a <= 1)
@@ -28,16 +28,16 @@ int fib_i(int a)
 
 int main()
 {
-    int a = 0;
+    unsigned int a = 0;
     long unsigned int t1 = 0;
     printf("Please, do not enter numbers bigger than 45 it can take too much time\nEnter N:");
     while(scanf("%d",&a)==1)
     {
         t1 = clock();
-        printf("Result with iteration is: %d", fib_i(a));
+        printf("Result with iteration is: %ld", fib_i(a));
         printf(", It took %ld ticks\n", clock()-t1);
         t1 = clock();
-        printf("Result with recursion is: %d", fib_r(a));
+        printf("Result with recursion is: %ld", fib_r(a));
         printf(", It took %ld ticks\nEnter N:", clock()-t1);
     }
 
