@@ -5,7 +5,7 @@ typedef struct Node *list;
 
 typedef struct Node
 {
-    char* elem;
+    char *elem;
     list next;
 } node;
 typedef list Node;
@@ -24,37 +24,48 @@ void add(list *a, char *b)
     add(&(*a)->next, b);
 }
 
-void rem_first_srch(list *a, char *b)
+void rem(list *a)
 {
     if(*a == NULL)
         return;
-    if((*a)->next == NULL)
-    {
-        if(cmp_str((*a)->elem, b))
-        {
-            free((*a)->elem);
-            free(*a);
-            a = NULL;
-        }
-        return;
-    }
-    if(cmp_str((*a)->next->elem, b))
-    {
-        list c = (*a)->next->next;
-        free((*a)->next->elem);
-        free((*a)->next);
-        (*a)->next = c;
-        return;
-    }
-    rem_first_srch(&(*a)->next, b);
+    list c = *a;
+    *a = (*a)->next;
+    free(c);
+}
+
+list last(list a)
+{
+    if(a == NULL)
+        return NULL;
+    if(a->next == NULL)
+        return a;
+    return last(a->next);
 }
 
 void show(list a)
 {
     if(a == NULL)
+    {
+//        printf("FIN\n");
         return;
+    }
+//    printf("%s ",a->elem);
     printf("%s%c",a->elem, a->next!=NULL ? ' ' : '\n');
     show(a->next);
+}
+
+int cmp_str(char *a, char *b)
+{
+    for(; (*a) == (*b); a++, b++)
+    {
+//        printf("a[i] = %c, b[i] = %c\n",(*a),(*b));
+        if((*a) == '\0')
+        {
+//            printf("YES");
+            return 1;
+        }
+    }
+    return 0;
 }
 
 list input()
@@ -67,37 +78,43 @@ list input()
 
     for(;scanf("%c",&c)==1;i++)
     {
+//        printf("POINT %d\n", i);
         if(i == N)
         {
             N*=2;
             str = (char*)realloc(str, N*sizeof(char));
         }
-        if(c == ' ' || c == '\n')
+        if(c == ' ' || c == '\n' || c == '\t')
         {
+            str[i] = '\0';
             add(&a, str);
             str = (char*)malloc(N*sizeof(char));
-            i = 0;
+            i = -1;
         }
         str[i] = c;
     }
     return a;
 }
 
-int cmp_str(char *a, char *b)
+void clean_list(list *a, list b)
 {
-    for(; (*a) == (*b); a++, b++)
-        if((*a) == '\n')
-            return 1;
-    return 0;
+    if(*a == NULL || (*a)->next == NULL)
+        return;
+    if(cmp_str((*a)->elem, b->elem))
+    {
+        rem(a);
+        clean_list(a, b);
+        return;
+    }
+    clean_list(&(*a)->next, b);
 }
 
 int main()
 {
-    list a = NULL;
+    list a = NULL, b = NULL;
     a = input();
+    clean_list(&a, last(a));
     show(a);
-    rem_first_srch(&a, "abc");
-    show(a);
-    //printf("%d\n", cmp_str("a","a"));
+//    printf("%d\n", cmp_str("a","a"));
     return 0;
 }
