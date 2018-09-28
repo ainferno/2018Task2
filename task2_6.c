@@ -11,33 +11,92 @@ typedef struct Node// Предположим что нам не надо бал�
 } node;
 typedef tree Node;
 
-void add(elemtype *a)
+void add(tree *a, elemtype b)
 {
-    if(!a)
+    if(*a == NULL)
     {
-        *a = (tree)malloc(node);
-        (*a)->elem = a;
+        *a = (tree)malloc(sizeof(node));
+        (*a)->elem = b;
+        (*a)->left = NULL;
+        (*a)->right = NULL;
         return;
     }
-    ((*a)->elem < a) ? add((*a)->left) : add((*a)->right)
+    ((*a)->elem > b) ? add(&(*a)->left, b) : add(&(*a)->right, b);
+}
+
+void add_t_r(tree *a, tree b)
+{
+    if(*a == NULL)
+    {
+        *a = b;
+        return;
+    }
+    add_t_r(&(*a)->right, b);
+}
+
+void remove_t(tree *a, elemtype b)
+{
+    if(*a == NULL)
+        return;
+    if((*a)->elem == b)
+    {
+        tree c = *a;
+        add_t_r(&(*a)->left, (*a)->right);
+        *a = (*a)->left;
+        free(c);
+        return;
+    }
+    (*a)->elem > b ? remove_t(&(*a)->left, b) : remove_t(&(*a)->right, b);
+}
+
+int search(tree a, int b)
+{
+    if(a == NULL)
+        return 0;
+    if(a->elem == b)
+        return 1;
+    return (a->elem > b) ? search(a->left, b) : search(a->right, b);
 }
 
 void show(tree a)
 {
     if(a == NULL)
-        return 0;
+        return;
     show(a->left);
     printf("%d ", a->elem);
     show(a->right);
 }
 
-int main()
+void input()
 {
     tree a = NULL;
-    add(&a,3);
-    add(&a,1);
-    add(&a,2);
-    add(&a,5);
-    show(a);
+    char c;
+    int x = 0;
+    while(scanf("%c%d", &c, &x) == 2)
+    {
+
+        //printf("C = %c, X = %d\n", c, x);
+        switch(c)
+        {
+            case '+':
+                add(&a, x); 
+                break;
+            case '-':
+                remove_t(&a, x);
+                 break;
+            case '?': 
+                printf("%d %s\n", x, (search(a,x)) ? "yes" : "no");
+                break;
+            default:
+                printf("ERROR\n");
+                return;
+        }
+        scanf("%c", &c);
+    }
+}
+
+int main()
+{
+    input();
     return 0;
 }
