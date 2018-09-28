@@ -4,6 +4,7 @@
 jmp_buf begin;
 
 char curlex;
+double prev;
 void getlex(void);
 double expr(void);
 double add(void);
@@ -23,11 +24,12 @@ main()
 }
 void getlex()
 {
+//    prev_lex = curlex;
     while ((curlex=getchar()) == ' ');
 }
 void error(void)
 {
-    printf("\nERROR!\n");
+//    printf("\nERROR! c = %c\n", curlex);
     while(getchar()!='\n');
     longjmp(begin,1);
 }
@@ -44,7 +46,7 @@ double degree(double a, unsigned int b)
 double expr()
 {
     double e=add();
-    while (curlex == '+' || curlex == '-')
+    while (curlex == '+' || curlex == '-' || curlex == '^')
     {
         if(curlex == '+')
         {
@@ -59,11 +61,15 @@ double expr()
                 e-=add();
             }
         }
-    }
-    if(curlex == '^')
-    {
-        getlex();
-        e = degree(e,expr());
+        if(curlex == '^')
+        {
+            int helper = prev;
+            getlex();
+//            printf("Point1: E = %lf, Prev = %lf, Cur = %c\n",e,helper, curlex);
+            e-=helper;
+            e+=degree(helper,mult());
+//            printf("Point2: E = %lf, Prev = %lf, Cur = %c\n",e,helper, curlex);
+        }
     }
     return e;
 }
@@ -88,20 +94,24 @@ double add()
 int mult()
 {
     int m;
+//    printf("CURLEX = %c ", curlex);
     switch(curlex)
     {
         case '0': case '1': case '2': case '3': case '4': case '5':
         case '6': case '7':case '8': case '9':
             m=curlex-'0';
+            prev=m;
             break;
         case '(':
                getlex();
                m=expr();
+               prev=m;
         if (curlex == ')')
             break;
         default :
             error();
     }
+//    printf("FIN\n");
     getlex();
     return m;
 }
