@@ -33,3 +33,8 @@ Task2.5 - task2_5.c
 >gcc task2_5.c
 
 >./a.out
+
+Task2.7 - task2_7.c
+>gcc task2_7.c
+
+>./a.out
