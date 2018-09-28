@@ -3,7 +3,7 @@
 
 jmp_buf begin;
 
-char curlex;
+char curlex, lastlex;
 double prev;
 void getlex(void);
 double expr(void);
@@ -15,6 +15,7 @@ main()
 {
     double result;
     setjmp(begin);
+    lastlex='\0';
     printf("==>");
     getlex();
     result=expr();
@@ -50,6 +51,7 @@ double expr()
     {
         if(curlex == '+')
         {
+            lastlex='+';
             getlex();
             e+=add();
         }
@@ -57,6 +59,7 @@ double expr()
         {
             if(curlex == '-')
             {
+                lastlex='-';
                 getlex();
                 e-=add();
             }
@@ -66,8 +69,25 @@ double expr()
             int helper = prev;
             getlex();
 //            printf("Point1: E = %lf, Prev = %lf, Cur = %c\n",e,helper, curlex);
-            e-=helper;
-            e+=degree(helper,mult());
+            switch(lastlex)// NOT OPTIMAL BUT NO TIME TO EDIT
+            {
+                case '+':
+                    e-=helper;
+                    e+=degree(helper,mult());
+                    break;
+                case '-':
+                    e+=helper;
+                    e-=degree(helper,mult());
+                    break;
+                case '*':
+                    e/=helper;
+                    e*=degree(helper,mult());
+                    break;
+                case '/':
+                    e*=helper;
+                    e/=degree(helper,mult());
+                    break;
+            }
 //            printf("Point2: E = %lf, Prev = %lf, Cur = %c\n",e,helper, curlex);
         }
     }
@@ -80,11 +100,13 @@ double add()
     {
         if(curlex == '*')
         {
+            lastlex='*';
             getlex();
             a*=mult();
         }
         if(curlex == '/')
         {
+            lastlex='/';
             getlex();
             a/=mult();
         }
