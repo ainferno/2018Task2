@@ -11,7 +11,7 @@ typedef struct Node// Предположим что нам не надо бал�
 } node;
 typedef tree Node;
 
-void add(tree *a, elemtype b)
+void add(tree *a, elemtype b)//Добавляем элемент в дерево
 {
     if(*a == NULL)
     {
@@ -24,7 +24,7 @@ void add(tree *a, elemtype b)
     ((*a)->elem > b) ? add(&(*a)->left, b) : add(&(*a)->right, b);
 }
 
-void add_t_r(tree *a, tree b)
+void add_t_r(tree *a, tree b)//Получает на вход 2 дерева, добавляет второе к самой правому элементу справа(используем для удаления элемента)
 {
     if(*a == NULL)
     {
@@ -34,14 +34,14 @@ void add_t_r(tree *a, tree b)
     add_t_r(&(*a)->right, b);
 }
 
-void remove_t(tree *a, elemtype b)
+void remove_t(tree *a, elemtype b)//Удаляет элемент, если он есть, ставит на его место его левое подерево, а его правое поддерево прикрепляет к его левому поддереву справа
 {
     if(*a == NULL)
         return;
     if((*a)->elem == b)
     {
         tree c = *a;
-        add_t_r(&(*a)->left, (*a)->right);
+        add_t_r(&(*a)->left, (*a)->right);//Это возможно потому что все элементы правого дерева больше элементов левого
         *a = (*a)->left;
         free(c);
         return;
@@ -49,7 +49,7 @@ void remove_t(tree *a, elemtype b)
     (*a)->elem > b ? remove_t(&(*a)->left, b) : remove_t(&(*a)->right, b);
 }
 
-int search(tree a, int b)
+int search(tree a, int b)//Поиск в бинарном дереве
 {
     if(a == NULL)
         return 0;
@@ -58,7 +58,7 @@ int search(tree a, int b)
     return (a->elem > b) ? search(a->left, b) : search(a->right, b);
 }
 
-void show(tree a)
+void show(tree a)//Вывод дерева(в случае с бинарным деревом поиска выведем осортированно)
 {
     if(a == NULL)
         return;
@@ -67,7 +67,7 @@ void show(tree a)
     show(a->right);
 }
 
-void input()
+void input()//Основная функция считывающая из входного потока
 {
     tree a = NULL;
     char c;
