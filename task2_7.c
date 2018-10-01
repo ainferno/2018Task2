@@ -27,7 +27,7 @@ void getlex()
 }
 void error(void)
 {
-    printf("\nERROR! CURLEX = %c\n", curlex);
+    printf("\nERROR!\n");
     while(getchar() != '\n');
     longjmp(begin,1);
 }
@@ -84,7 +84,7 @@ double add()
 double mult2()//Alternate function that checks for ^
 {
 //    printf("POINT0 cur = %c\n", curlex);
-    double a = mult();
+    double a = mult(), b = 0;
 //    int trigger = 0;//Spec trigger that is set 1 if the degree is  <0
     while(curlex == '^')
     {
@@ -97,7 +97,10 @@ double mult2()//Alternate function that checks for ^
 //        if(trigger)
 //            a = 1/degr(a,mult());//If degree <0 => a = 1/a^x
 //        else
-        a = degr(a,mult2());//If degree >=0 => a = a^x
+        b = mult2();
+        if(b < 0)
+            error();
+        a = degr(a,b);//If degree >=0 => a = a^x
 //        trigger = 0;
     }
 //    printf("POINT3 cur = %c\n", curlex);
