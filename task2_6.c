@@ -72,7 +72,12 @@ void input()//Основная функция считывающая из вхо
     tree a = NULL;
     char c;
     int x = 0;
-    while(scanf("%c%d", &c, &x) == 2)
+    do
+    {
+        scanf("%c", &c);
+    }
+    while(c == ' ' || c == '\n' || c == '\t');
+    while(scanf("%d", &x) == 1)
     {
 
         //printf("C = %c, X = %d\n", c, x);
@@ -91,7 +96,11 @@ void input()//Основная функция считывающая из вхо
                 printf("ERROR\n");
                 return;
         }
-        scanf("%c", &c);
+        do
+        {
+            scanf("%c", &c);
+        }   
+        while(c == ' ' || c == '\n' || c == '\t');
     }
 }
 
