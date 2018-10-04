@@ -30,7 +30,7 @@ void rem(list *a)
         return;
     list c = *a;
     *a = (*a)->next;
-    free((*a)->elem);
+    // free((*a)->elem);
     free(c);
 }
 
@@ -87,36 +87,37 @@ list input()
         }
         if(c == ' ' || c == '\n' || c == '\t')
         {
-            str[i] = '\0';
+            str[i+1] = '\0';
             add(&a, str);
+            N = 10, i = 0;
             str = (char*)malloc(N*sizeof(char));
-            i = 0;
         }
         if(c != ' ' && c != '\t' && c != '\n')
-            str[i] = c;
+            str[i++] = c;
     }
     free(str);
     return a;
 }
 
-void clean_list(list *a, list b)
+list clean_list(list *a, list b)
 {
     if(*a == NULL || (*a)->next == NULL)
-        return;
+        return *a;
     if(cmp_str((*a)->elem, b->elem))
     {
         rem(a);
-        clean_list(a, b);
-        return;
+        *a = clean_list(a, b);
+        return *a;
     }
     clean_list(&(*a)->next, b);
+    return *a;
 }
 
 int main()
 {
     list a = NULL, b = NULL;
     a = input();
-    clean_list(&a, last(a));
+    a = clean_list(&a, last(a));
     show(a);
 //    printf("%d\n", cmp_str("a","a"));
     return 0;
