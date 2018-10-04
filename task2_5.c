@@ -30,6 +30,7 @@ void rem(list *a)
         return;
     list c = *a;
     *a = (*a)->next;
+    free((*a)->elem);
     free(c);
 }
 
@@ -76,7 +77,7 @@ list input()
     int N = 10, i = 0;
     str = (char*)malloc(N*sizeof(char));
 
-    for(;scanf("%c",&c)==1;i++)
+    for(;scanf("%c",&c)==1;)
     {
 //        printf("POINT %d\n", i);
         if(i == N)
@@ -89,10 +90,12 @@ list input()
             str[i] = '\0';
             add(&a, str);
             str = (char*)malloc(N*sizeof(char));
-            i = -1;
+            i = 0;
         }
-        str[i] = c;
+        if(c != ' ' && c != '\t' && c != '\n')
+            str[i] = c;
     }
+    free(str);
     return a;
 }
 
