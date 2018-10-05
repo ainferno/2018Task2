@@ -74,7 +74,9 @@ void input()//Основная функция считывающая из вхо
     int x = 0;
     do
     {
-        scanf("%c", &c);
+        c = getchar();
+        if(c == -1)
+            return;
     }
     while(c == ' ' || c == '\n' || c == '\t');
     while(scanf("%d", &x) == 1)
@@ -98,7 +100,9 @@ void input()//Основная функция считывающая из вхо
         }
         do
         {
-            scanf("%c", &c);
+            c = getchar();
+            if(c == -1)
+                return;
         }   
         while(c == ' ' || c == '\n' || c == '\t');
     }
