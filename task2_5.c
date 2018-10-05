@@ -85,7 +85,7 @@ list input()
             N*=2;
             str = (char*)realloc(str, N*sizeof(char));
         }
-        if(c == ' ' || c == '\n' || c == '\t')
+        if(i > 0 && (c == ' ' || c == '\n' || c == '\t'))
         {
             str[i+1] = '\0';
             add(&a, str);
