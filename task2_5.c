@@ -30,7 +30,7 @@ void rem(list *a)
         return;
     list c = *a;
     *a = (*a)->next;
-    // free((*a)->elem);
+    free((*a)->elem);
     free(c);
 }
 
