@@ -24,14 +24,14 @@ void add(list *a, char *b)
     add(&(*a)->next, b);
 }
 
-void rem(list *a)
+list rem(list a)
 {
-    if(*a == NULL)
-        return;
-    list c = *a;
-    *a = (*a)->next;
-    free((*a)->elem);
-    free(c);
+    if(a == NULL)
+        return a;
+    list c = a->next;
+    free(a->elem);
+    free(a);
+    return c;
 }
 
 list last(list a)
@@ -105,7 +105,7 @@ list clean_list(list *a, list b)
         return *a;
     if(cmp_str((*a)->elem, b->elem))
     {
-        rem(a);
+        *a = rem(*a);
         *a = clean_list(a, b);
         return *a;
     }
@@ -117,6 +117,7 @@ int main()
 {
     list a = NULL, b = NULL;
     a = input();
+    // a = rem(a);
     a = clean_list(&a, last(a));
     show(a);
 //    printf("%d\n", cmp_str("a","a"));
